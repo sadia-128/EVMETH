@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>EVMETH</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <!-- <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/moralis-v1/dist/moralis.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/customStyle.css">
+  
+    <style>
+       .quiz-chartTip {
+            padding: 5px 10px;
+            border: 1px solid rgba(0,0,0,.1);
+            border-radius: 4px;
+            background-color: rgba(255,255,255,.9);
+            box-shadow: 3px 3px 10px rgba(0,0,0,.1);
+            position: absolute;
+            z-index: 50;
+            max-width: 650px;
+        }
+
+        .quiz-graph {
+            padding: 10px; 
+            height: 470px;
+            width: 100%;
+        }
+
+        .quiz-graph .x-labels {
+            text-anchor: middle;
+        }
+
+        .quiz-graph .y-labels {
+            text-anchor: end;
+        }
+
+        .quiz-graph .quiz-graph-grid {
+            stroke: #ccc;
+            stroke-dasharray: 0;
+            stroke-width: 1;
+        }
+
+        .label-title {
+            text-anchor: middle;
+            text-transform: uppercase;
+            font-size: 12px;
+            fill: gray;
+        }
+
+        .quiz-graph-dot, .quiz-graph-start-dot{
+            fill: rgba(0,112,210,1);
+            stroke-width: 2;
+            stroke: white;   
+        }
+        .column {
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .column {
+    width: 50%;
+  }
+}
+
+    </style>
+
+</head>
+
+<body onload="check()">
+<script>
+//   const serverUrl = "https://gjyexdlwsqwi.usemoralis.com:2053/server";
+// const appId = "zNakMsSAjNQYtzbJnJ9vaKfZRfKtEz2tvjS9FcCZ";
+// Moralis.start({ serverUrl, appId });
+</script>
+<div class="container-fluid">
+  <main id="main" style="background-image:url('./assets/img/secback2.jpg');background-size:cover;">
+    <!-- ======= Header ======= -->
+    <div class="flex-container">
+
+      <div>
+        <a href="./share.html">
+          <img src="./assets/img/share.png" height="70px">
+        </a>
+
+      </div>
+      <div>
+        <img id="logo" src="./assets/img/logo.png" height="60px">
+        <span id="logotext">EVMETH</span>
+      </div>
+        
+      <div id="conn_wallet">
+        <input type="button" id="connect_wallet" value="Connect Wallet" class="btn btn-primary" onclick="conn_wallet()">
+        <input type="button" id="Disconnect_wallet" value="DisConnect Wallet" style="display: none;" class="btn btn-primary" onclick="disconn_wallet()">
+      </div>
+      <div id="wallet">
+        <img src="./assets/img/chain.png" height="40px" alt="">
+        <p id="walletid">ebf642</p>
+      </div>
+    </div>
+    <!-- ======= Header end ======= -->
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4" style="color:white;height:400px;">
+          <div class="col">
+            <div class="portfolio-info">
+              <h1 style="font-size:60px;">Recieve Voucher</h1>
+              <h2 style="font-size:20px;">Join Node and Sart Mining</h2>
+              <button data-toggle="modal" id="join" data-target="#myModal">Recieve</button>
+              <button id="joined" style="display: none;">Already joined</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Button trigger modal -->
+    <!-- <div class="container">
+      <h2>Fading Modal</h2>
+      <p>Add the "fade" class to the modal container if you want the modal to fade in on open and fade out on close.</p> -->
+    
+      <!-- Button to Open the Modal -->
+      <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        Open modal
+      </button> -->
+    
+      <!-- The Modal -->
+      <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content" id="mdl">
+          
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Receive description</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body">
+             <h4>You need to pay a miner's fee to receive the voucher,
+               please make sure that your wallet has enough ETH as the miner's fee</h4>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" onclick="recieve()">Recieve</button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+    <!-- </div> -->
+
+  </main><!-- End #main -->
+ 
+  <!-- tabs -->
+  <div class="container">
+    <ul class="nav nav-tabs" id="myTab" role="tablist" style="align-items:center;">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+          role="tab" aria-controls="home" aria-selected="true">Mining Pool</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+          role="tab" aria-controls="profile" aria-selected="false">Account</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+          role="tab" aria-controls="contact" aria-selected="false">Team</button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+      <!-- mining pool starts here -->
+      
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <br><br><br><br>
+        <h1 id="leftborder">Pool Data</h1>
+        <div id="items">
+          <p id="p1">total out put</p>
+          <p id="pblue">counter</p>
+        </div>
+        <div id="items">
+          <p id="p1">total out put</p>
+          <p id="pblue">counter</p>
+        </div>
+        <div id="items">
+          <p id="p1">total out put</p>
+          <p id="pblack">counter</p>
+        </div>
+        <div id="items">
+          <p id="p1">total out put</p>
+          <p id="pblack">counter</p>
+        </div>
+        <!--  -->
+        <br><br><br><br>
+        <div id="minig">
+          <h1>Mining</h1>
+          <p id="p1">Liquidity mining income</p>
+        </div>
+        <!--  -->
+        <div style=" border-radius: 10px; border: 2px solid rgb(184, 180, 180); padding: 5px;"> 
+          <h1 id="leftborder" >Etherium</h1>
+          <div id="etherium" style="align-items:center;">
+            <!-- chart -->
+            <div class="col-lg-2 col-md-2 col-2">
+            <img src="./assets/img/logo.png" alt="">
+            </div>
+            
+            <div id="card" class="col-lg-9 col-md-9 col-9" style="border: none;">
+              
+<div class="slds-p-top--medium" style="">
+  <div class="">
+      <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div id="tradingview_356b6" style="height: 300px;"></div>
+  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/ETHUSD/?exchange=BITSTAMP" rel="noopener" target="_blank"><span class="blue-text">ETHUSD Chart</span></a> by TradingView</div>
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script type="text/javascript">
+  new TradingView.widget(
+  {
+  "autosize": true,
+  "symbol": "BITSTAMP:ETHUSD",
+  "interval": "D",
+  "timezone": "Etc/UTC",
+  "theme": "light",
+  "style": "3",
+  "locale": "en",
+  "toolbar_bg": "#f1f3f6",
+  "enable_publishing": false,
+  "allow_symbol_change": true,
+  "container_id": "tradingview_356b6"
+}
+  );
+  </script>
+</div>
+<!-- TradingView Widget END -->
+  </div>
+</div>
+           </div>
+          </div>
+        </div>
+        <!--  -->
+
+        <!--  -->
+        <br><br><br><br>
+        <div id="user-output">
+          <h1 id="leftborder">User Output</h1>
+          <div id="pricing">
+            <p id="p1">Address</p>
+            <p id="p1">Quantity</p>
+          </div>
+          <div id="scrollingText">
+            <marquee direction="down">
+              <div id="pricing">
+                <p id="pblue">0xe3bbc……95f6d3d51ad</p>
+                <p id="pblack">0.000589 ETH</p>
+              </div>
+              <div id="pricing">
+                <p id="pblue">0xe3bbc……95f6d3d51ad</p>
+                <p id="pblack">0.000589 ETH</p>
+              </div>
+              <div id="pricing">
+                <p id="pblue">0xe3bbc……95f6d3d51ad</p>
+                <p id="pblack">0.000589 ETH</p>
+              </div>
+              <div id="pricing">
+                <p id="pblue">0xe3bbc……95f6d3d51ad</p>
+                <p id="pblack">0.000589 ETH</p>
+              </div>
+              <div id="pricing">
+                <p id="pblue">0xe3bbc……95f6d3d51ad</p>
+                <p id="pblack">0.000589 ETH</p>
+              </div>
+              <div id="pricing">
+                <p id="pblue">0xe3bbc……95f6d3d51ad</p>
+                <p id="pblack">0.000589 ETH</p>
+              </div>
+              <div id="pricing">
+                <p id="pblue">0xe3bbc……95f6d3d51ad</p>
+                <p id="pblack">0.000589 ETH</p>
+              </div>
+              <div id="pricing">
+                <p id="pblue">0xe3bbc……95f6d3d51ad</p>
+                <p id="pblack">0.000589 ETH</p>
+              </div>
+            </marquee>
+
+          </div>
+        </div> <!-- !user output -->
+        <!--help center section sart  -->
+        <div id="helpSection" class='mt-5'>
+          <h1>Help Center</h1>
+
+        </div>
+        <section>
+
+          <details>
+            <summary>
+              <p id="pblack">How do i need to Join?</p>
+            </summary>
+            <p id="pgrey">
+              To participate in non-destructive and non-guaranteed liquidity mining, you need to pay an ETH miner's fee
+              to
+              receive the voucher, and an ETH wallet address only needs to be claimed once. Automatically open mining
+              permissions after success
+            </p>
+          </details> <br>
+          <details>
+            <summary>
+              <p id="pblack">How do i withdraw money?</p>
+            </summary>
+            <p id="pgrey">
+              You can convert the coins produced daily into USDT, and then initiate a withdrawal. The USDT withdrawal
+              will be
+              automatically sent to the wallet address you added to the node, and other addresses are not supported.
+            </p>
+          </details> <br>
+          <details>
+            <summary>
+              <p id="pblack">How to calculate income?</p>
+            </summary>
+            <p id="pgrey">
+              When you join successfully, the smart contract starts to calculate your address through the node and
+              starts to
+              calculate the income
+            </p>
+
+          </details> <br>
+        </section>
+        <!--help center section end  -->
+        <!-- Audit report section -->
+        <div id="audit-report">
+          <h1>Audit Report</h1>
+          <br><br>
+          <p id="pgrey">We have secure audit report</p>
+          <br><br>
+        </div>
+        <div id="btnimgs" class="col-lg-12 col-12">
+          <img style="margin:10px;" class="col-lg-4 col-md-4 col-4" src="./assets/img/fairyproof.png" alt="">
+          <img style="margin:10px;" class="col-lg-4 col-md-4 col-4" src="./assets/img/certik.png" alt="">
+          <img style="margin:10px;" class="col-lg-4 col-md-4 col-4" src="./assets/img/slowmist.png" alt="">
+        </div>
+        <!-- Audit report section end -->
+
+        <!-- evmth website -->
+        <div id="evmth-website">
+          <img src="./assets/img/logo.png" alt="">
+          <p id="pblack"> EVMETH Website</p>
+        </div>
+        <!-- !evmth website -->
+
+        <!-- partner -->
+        <div id="partner">
+          <h1> Partner</h1>
+          <p id="pgrey">We have a secure audit report</p>
+          <div id="btnimgs">
+            <img style="margin:10px;" class="col-lg-4 col-md-4 col-4" src="./assets/img/hbiecochain.png" alt="">
+            <img style="margin:10px;" class="col-lg-4 col-md-4 col-4" src="./assets/img/goingecko.png" alt="">
+            <img style="margin:10px;" class="col-lg-4 col-md-4 col-4" src="./assets/img/binance.png" alt="">
+          </div>
+          <div id="btnimgs">
+            <img style="margin:10px;" class="col-lg-4 col-md-4 col-4" src="./assets/img/defibox.png" alt="">
+            <img style="margin:10px;" class="col-lg-4 col-md-4 col-4" src="./assets/img/coinbse.png" alt="">
+            <img style="margin:10px;" class="col-lg-4 col-md-4 col-4" src="./assets/img/tokenpocket.png" alt="">
+          </div>
+
+        </div>
+        <!-- !partner -->
+
+      </div>
+      <!-- mining pool tab ends here -->
+
+      <!-- account tab starts here -->
+      <br><br><br><br>
+      <div class="tab-pane fade col-md-12 col-12" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <h1 id="leftborder">My Account</h1>
+        <div id="items">
+          <p id="p1">Total output</p>
+          <p id="pblue"><span id="totalreward"> </span></p>
+        </div>
+        <div id="items">
+          <p id="p1">Wallet balance</p>
+          <div id="blnc">
+            <div id="pblue">
+              
+            </div>
+            
+          </div>
+         
+        </div>
+        <div id="items">
+          <p id="p1">Exchangible</p>
+          <p id="pblack"><span id="totalmin"> </span></p>
+        </div>
+        <br><br><br><br>
+        <!-- account sub tabs start here-->
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+              type="button" role="tab" aria-controls="nav-home" aria-selected="true">Exhange</button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+              type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Withdraw</button>
+            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
+              type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Record</button>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+
+          <!--Exhange tab sarts here  -->
+          <br><br><br><br>
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div id="exchange-box">
+              <h1 id="leftborder">Exchange</h1>
+              <div id="exchange" style=" padding: 2px;">
+                    <div id="input-redem" class="col-lg-4 col-4 mt-4 ml-2">
+                    <br>
+                  <p style="font-size:20px; color: black;">Enter Amount</p>
+                    <input type="number" name="" id="price" placeholder="0.0" style="border: solid 1px rgb(197, 195, 195) ; border-radius: 7px;">
+                    <br>
+                </div>
+                <div id="img-result" class="col-lg-8 col-8" >
+                  <img src="./assets/img/eqaul.png" alt="" class="col-5" >
+                  <img src="./assets/img/eth.png" alt="" class="col-3" >
+                  <h3 id="" class="col-4">ETH</h3>
+                </div>
+                
+              </div>
+              <button id="exchange-btn" onclick="excbtn()">Exchange</button>
+              <p id="pgrey">Convert the ETH coins you dug into USDT</p>
+            </div>
+          </div>
+          <!--Exhange tab ends here  -->
+
+          <!--Withdraw tab sarts here  -->
+          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+              <div id="exchange-box">
+                <h1 id="leftborder">Withdraw</h1>
+                <div id="exchange" style="padding: 20px;height: 250px;">
+                  <div id="" class="col-5 mt-4 " style=" display: block;">
+                    <!-- <label> <h2 style="color: blue;"> Enter Amount</h2> </label> -->
+                     <br>
+                    <!-- <input type="number" name="" id="wd" placeholder="0.0" style="border: solid 1px rgb(197, 195, 195) ; border-radius: 7px;"> -->
+                      <input type="number" id="wd" placeholder="0.0" style="border-radius:10px;">
+                      <br>
+                      <h3 id="" style="color: blue;">Total Balance <span id="totalEth"> </span></h3>
+                  </div>
+                  <div id="img-result" class="col-7" style="">
+                    <img src="./assets/img/eth.png" alt="" class="col-5 mt-2 mb-2">
+                    <h2 id="" class="col-4">ETH</h2>
+                  </div>
+                  
+                  <!-- <div id="img-result">
+                    
+                    <img src="./assets/img/T.png" alt=""> -->
+                    <!-- <p id="pblack">USDT</p>
+                  </div> -->
+                  
+                </div>
+                <button id="exchange-btn" onclick="wdReq()">Confirm</button>
+                <p id="pgrey">
+                  Your withdrawal will be sent to your USDT wallet address within 24 hours in the future
+                </p>
+              </div>
+            </div>
+          </div>
+          <!--Withdraw tab ends here  -->
+
+          <!--Record tab starts here  --> <br> <br> <br>
+          <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+              <!-- record sub tab starts here -->
+              <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-exchange" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Exchange</button>
+                  <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-withdraw" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Withdraw</button>
+                  <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-mining" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Mining</button>
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <!-- exchange starts here -->
+                <div class="tab-pane fade show active" id="nav-exchange" role="tabpanel" aria-labelledby="nav-home-tab">
+                      <div class="record-content mt-4" >
+                        <!-- <div style="display: inline;background-color: red;"> -->
+                          <h3 id="pblack" class="col-7" >Date</h3>
+                          <h3 id="pblack" class="col-5">Amount</h3>
+                          </div>
+                        <div class="record-content mt-4 mb-4" id="rcd">
+                          </div>
+
+                        <!-- </div> -->
+                        <!-- <table class="mx-auto" style="display: inline;background-color: red;">
+                          <tr class="text-center">
+                            <th><h2>Serial No.</h2></th>
+                            <th><h2>Wallet Address</h2></th>
+                            <th><h2>Price</h2></th>
+                          </tr>
+                        </table> -->
+                </div>
+                <!-- exchange ends here-->
+                <!-- withdraw starts here -->
+                <div class="tab-pane fade" id="nav-withdraw" role="tabpanel" aria-labelledby="nav-profile-tab">
+                  <div class="record-content">
+                    <p id="pblack">Date</p>
+                    <p id="pblack">Quantity</p>
+                    <p id="pblack">Status</p>
+                  </div>
+                  <div id="wdRec"></div>
+                </div>
+                <!-- withdraw ends here  -->
+                <!-- mining start here  -->
+                <div class="tab-pane fade" id="nav-mining" role="tabpanel" aria-labelledby="nav-contact-tab">
+                  <div id="pricing">
+                    <p id="p1">Time</p>
+                    <p id="p1">Output</p>
+                  </div>
+                  <div id="dayMinRec"></div>     
+                </div>
+                <!-- mining  ends here  -->
+              </div>
+              <!-- record sub tab ends here -->
+          </div>
+          <!--Record tab ends here  -->
+
+        </div>
+        <!-- account sub tabs ends here-->
+      </div>
+      <!-- account tab ends here -->
+
+      <!-- team tab starts here -->
+      <div class="tab-pane fade col-md-12 col-12" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        
+        <h1 id="leftborder">Team Data</h1>
+        <div id="items">
+          <p id="pgrey">level 1 Total output</p>
+          <p id="pblack">0 ETH</p>
+        </div>
+        <div id="items">
+          <p id="pgrey">level 1 Total output</p>
+          <p id="pblack">0 ETH</p>
+        </div>
+        <div id="items">
+          <p id="pgrey">level 1 Total output</p>
+          <p id="pblack">0 ETH</p>
+        </div>
+        <div id="items">
+          <p id="pgrey">level 1 Total output</p>
+          <p id="pblack">0 ETH</p>
+        </div>
+        <br><br><br><br>
+        <!-- referrer -->
+        <p id="pgrey">Referrer</p>
+        <div id="items">
+          <div id="code" class="">
+            <p>code</p>
+          </div>
+          <button class="btn btn-primary" style="height: 50px; margin-right: 20px;">Save</button>
+          <br><br><br>
+        </div>
+        <p id="pgrey">
+          Set the referrer, the referrer will get additional rewards from the mining pool
+        </p>
+        <br><br><br><br>
+         
+        <p id="pgrey">My Share Link</p>
+        <div id="itemss" class="" >
+          <div id="link" class="" >
+          </div>
+          <!-- <div class="col-lg-2 col-2" style="background-color: aqua;"> -->
+          <button type="button" class="btn btn-primary btns" style="height: 50px;" onclick="copy()">Copy</button>
+        <!-- </div> -->
+          <br><br><br>
+        </div>
+
+        <br><br><br><br>
+        <p id="pgrey">
+          Send your invitation link, friends join the node through your link, and you will get generous token rewards
+
+        </p>
+
+
+      </div>
+      <!-- team tab ends here -->
+    </div>
+
+  </div>
+  <!-- tabs ends here -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+  </footer><!-- End Footer -->
+</div>
+  <div id="preloader"></div>
+  <a title="Start Chat" id="chat" href="chat.html"><i><img src="./assets/img/chat.png" height="80px" alt=""></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="main.js"></script>
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
